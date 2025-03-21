@@ -12,22 +12,27 @@ if (!$db) {
 $types = $_GET['types'] ?? 0;
 $genre = $_GET['genre'] ?? 0;
 $age = $_GET['age'] ?? 0;
-print_r($genre);
-print_r($age);
 
 $sql = 'SELECT * FROM ' . $types;
-
 if ($genre && $age) {
-  $sql = $sql . 'genre=' . $genre . ' and age=' . $age;
+  $sql = $sql . ' WHERE ' . 'genre="' . $genre . '" and age=' . $age;
 }
 
-print_r($sql);
+
 $result = mysqli_query($db, $sql);
+
 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 foreach ($rows as $row) {
-  echo 'Жанр: ' . $row['genre'] . '. Возрастной рейтинг: ' . $row['age'] . '</br>';
+  echo "<tr>";
+  echo "<td>" . $row["name"] . " </td>";
+  echo "<td>" . $row["genre"] . " </td>";
+  echo "<td>" . $row["age"] . "+ </td>";
+  echo "<td>" . $row["year"] . " год </td> </br>";
+  echo "</tr>";
 }
+echo "</table>";
+
 
 
 ?>
@@ -39,8 +44,8 @@ foreach ($rows as $row) {
     <option value="serials">Сериалы</option>
   </select>
   <select class="genre" name="genre">
-    <option value="fantasy">Фантастика</option>
-    <option value="comedy">Комедия</option>
+    <option value="Фантастика">Фантастика</option>
+    <option value="Комедия">Комедия</option>
   </select>
   <select class="age" name="age">
     <option value="0">0+</option>
