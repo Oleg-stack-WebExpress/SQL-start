@@ -16,7 +16,10 @@ $age = $_GET['age'] ?? 0;
 $sql = 'SELECT * FROM ' . $types;
 if ($genre && $age) {
   $sql = $sql . ' WHERE ' . 'genre="' . $genre . '" and age=' . $age;
+} else {
+  $sql = $sql . ' WHERE ' . 'genre="' . $genre . '" and age=' . $age;
 }
+
 
 
 $result = mysqli_query($db, $sql);
