@@ -9,16 +9,24 @@ if (!$db) {
   exit();
 }
 
-$types = $_GET['types'] ?? 0;
-$genre = $_GET['genre'] ?? 0;
-$age = $_GET['age'] ?? 0;
+$types = $_GET['types'] ?? null;
+$genre = $_GET['genre'] ?? null;
+$age = $_GET['age'] ?? null;
+
+if (!$types) {
+  echo "Ошибка! Попытка доступа к несуществующей таблице!";
+  exit();
+ }
 
 $sql = 'SELECT * FROM ' . $types;
 if ($genre && $age) {
-  $sql = $sql . ' WHERE ' . 'genre="' . $genre . '" and age=' . $age;
-} else {
-  $sql = $sql . ' WHERE ' . 'genre="' . $genre . '" and age=' . $age;
+  $sql = $sql . 'genre=' . $genre . ' and age=' . $age;
+} else if ($genre && !$age) {
+  $sql = $sql . 'age=' . $age;
+} esle if (!$genre && $age) { 
+  $sql = $sql . 'genre=' . $genre;
 }
+
 
 
 
