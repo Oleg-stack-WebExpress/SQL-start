@@ -14,17 +14,28 @@ $genre = $_GET['genre'] ?? null;
 $age = $_GET['age'] ?? null;
 
 if (!$types) {
-  echo "Ошибка! Попытка доступа к несуществующей таблице!";
-  exit();
- }
+ echo "Ошибка! Попытка доступа к несуществующей таблице!";
+ exit();
+}
 
-$sql = 'SELECT * FROM ' . $types;
-if ($genre && $age) {
-  $sql = $sql . 'genre=' . $genre . ' and age=' . $age;
-} else if ($genre && !$age) {
+$sql = 'SELECT * FROM ' . $types; // выводим данны выбранной таблицы
+
+// если жанр или возраст не равны null, значит есть какие-то доп условия ..
+if ($genre || $age) {
+ $sql = $sql . ' WHERE '; // .. и значит нам нужен WHERE для фильтра
+  
+ print_r($sql);
+
+ // Если есть и жанр и возраст то делаем условие с and, чтобы фильтрануть и то и другое.
+ if ($genre && $age) {
+  $sql = $sql . 'genre="' . $genre . '" and age=' . $age;
+ } else if ($genre && !$age) {
+  // Если есть жанр, но нету возраста, то просто добавляем в строку возраст.
+  $sql = $sql . 'genre="' . $genre.'"';
+ } else if (!$genre && $age) {
+  // Если есть возраст, но нету жанра, то просто дописываем возраст
   $sql = $sql . 'age=' . $age;
-} esle if (!$genre && $age) { 
-  $sql = $sql . 'genre=' . $genre;
+ }
 }
 
 
